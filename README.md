@@ -1,22 +1,22 @@
 # :black_square_button: react-native-grid-component
 
-[![NPM version](http://img.shields.io/npm/v/react-native-grid-component.svg?style=flat)](https://www.npmjs.com/package/react-native-grid-component)
-[![Build Status](https://travis-ci.org/phil-r/react-native-grid-component.svg)](https://travis-ci.org/phil-r/react-native-grid-component)
-
 Easy to use grid component for your [react-native](https://github.com/facebook/react-native/) project. Supports iOS and Android.
+
+Original project is by Phil at [this link]:
+(https://www.npmjs.com/package/react-native-grid-component ). This is a fork.
 
 Based on [react-native framework](https://github.com/facebook/react-native/) by Facebook.
 
 ## Installation
 
 ```
-npm install react-native-grid-component --save
+npm install react-native-grid-2 --save
 ```
 
 or
 
 ```
-yarn add react-native-grid-component
+yarn add react-native-grid-2
 ```
 
 ## Example
@@ -30,7 +30,7 @@ import {
   View
 } from 'react-native';
 
-import Grid from 'react-native-grid-component';
+import Grid from 'react-native-grid-2';
 
 class Simple extends Component {
 
@@ -74,15 +74,6 @@ Name | propType | description
 `itemsPerRow` *optional* | number | number of elements per one row
 `onEndReached` *optional* | func | function that is called when the end of the grid reached (can be used to add new elements, like in [example](Examples/Simple))
 `itemHasChanged` *optional* | func `(data1: any, data2: any) => boolean` | function that is used in `rowHasChanged` function in `ListView.DataSource` to determine whether the row was updated. **IMPORTANT:** It's possible to get `null` as one or both of arguments, so you'll want to check for that ( e.g. `(d1, d2) => d1 && d2 ? d1.data !== d2.data : true`)
-
-
-## [TODO](https://github.com/phil-r/react-native-grid-component/projects/1)
-
-
-
-## See also
- - [React Native Looped Carousel](https://github.com/appintheair/react-native-looped-carousel)
- - [React Native Buyscreen](https://github.com/appintheair/react-native-buyscreen)
 
 
 ISC License (ISC)
