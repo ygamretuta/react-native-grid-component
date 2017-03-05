@@ -1,6 +1,6 @@
 /**
  * React Native Grid Component
- * https://github.com/phil-r/react-native-grid-component
+ * https://github.com/ygamretuta/react-native-grid-component
  * @flow
  */
 
@@ -10,12 +10,11 @@ import {
   View,
   ListView,
   Dimensions,
+  RefreshControl
 } from 'react-native';
 
 const { height, width } = Dimensions.get('window');
 
-// http://stackoverflow.com/questions/8495687/split-array-into-chunks
-// I don't see the reason to take lodash.chunk for this
 const chunk = (arr, n) =>
   Array.from(Array(Math.ceil(arr.length / n)), (_, i) => arr.slice(i * n, (i * n) + n));
 
@@ -30,7 +29,6 @@ const mapValues = (obj, callback) => {
 };
 
 export default class Grid extends Component {
-
   static propTypes = {
     itemsPerRow: React.PropTypes.number,
     onEndReached: React.PropTypes.func,
@@ -38,7 +36,7 @@ export default class Grid extends Component {
     renderItem: React.PropTypes.func.isRequired,
     renderPlaceholder: React.PropTypes.func,
     data: React.PropTypes.arrayOf(React.PropTypes.any).isRequired,
-    refreshControl: React.PropTypes.func,
+    refreshControl: React.PropTypes.element,
     renderFooter: React.PropTypes.func,
   }
 
@@ -49,20 +47,21 @@ export default class Grid extends Component {
       return r1 !== r2;
     },
     renderFooter: () => null,
-    refreshControl: () => null,
+    refreshControl: <RefreshControl refreshing={false}/>,
     renderPlaceholder: () => null,
-
   }
-  constructor(props: Object) {
+
+  constructor(props) {
     super(props);
 
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1.some((e, i) => props.itemHasChanged(e, r2[i])),
-      sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
+      sectionHeaderHasChanged: (s1, s2) => s1 !== s2
     });
+
     if (props.sections === true) {
       this.state = {
-        dataSource: ds.cloneWithRowsAndSections(this._prepareSectionedData(this.props.data)),
+        dataSource: ds.cloneWithRowsAndSections(this._prepareSectionedData(this.props.data))
       };
     } else {
       this.state = {
@@ -71,7 +70,7 @@ export default class Grid extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps){
     if (nextProps.sections === true) {
       this.state = {
         dataSource: this.state.dataSource
@@ -100,7 +99,7 @@ export default class Grid extends Component {
     return rows;
   }
 
-  _renderPlaceholder = i =>
+  _renderPlaceholder = i => 
     <View key={i} style={{ width: width / this.props.itemsPerRow }} />
 
   _renderRow = rowData =>
@@ -109,16 +108,17 @@ export default class Grid extends Component {
         if (item) {
           return this.props.renderItem(item, i);
         }
-        // render a placeholder
+
         if (this.props.renderPlaceholder) {
           return this.props.renderPlaceholder(i);
         }
+
         return this._renderPlaceholder(i);
       })}
     </View>
 
   render() {
-    return (
+    return(
       <View style={styles.container}>
         <ListView
           {...this.props}
